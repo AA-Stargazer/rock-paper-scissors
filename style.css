@@ -54,21 +54,63 @@ body,html {
 	/* margin-left: 2mm; */
 }
 
-
+/* UPDATE, to make the image changing faster, I'll change display:none;
 /*
  * for inner curved border 
  * https://css-tricks.com/body-border-rounded-inside/
  * but before that I saw (also in the comments, you can see peoples also said) there were method using box-shadow:
  * https://codepen.io/marktripney/pen/RwaEaga 
  */
-
+/*
 img {
 	width: 4cm;
 	height: 4cm;
 	/* border: 2mm solid black; */
+	/*
 	border-radius: 2mm;
 	box-shadow: 0 0 0 2mm black; /* but also changed some alignment... no need margin-left in .layer-1.bottom, already aligned, and update the .grid grid-gap. */
+/*}
+*/
+
+
+/* https://stackoverflow.com/a/8775218 */
+.layer-1.left div,
+.layer-1.right div {
+	width: 4cm;
+	height: 4cm;
+	border-radius: 2mm;
+	box-shadow: 0 0 0 2mm black;
+	overflow: hidden;
+	position: relative;
 }
+
+
+.rock, .paper, .scissor {
+	/*display: none;*/
+	opacity: 0;
+	position: absolute;
+	transition-duration: 0.3s;
+	/* 
+	 * to use transition time or things like this, we gotta play with visibility, opacity. not the display unless there isn't a way to accomplish with java, but for the display, don't think so
+	 * oh and also position is already absolute, so eligible for opacity etc... 
+	 * https://stackoverflow.com/questions/3331353/transitions-on-the-css-display-property
+	 */
+}
+
+.rock {
+	height: 4cm;
+	left: -27%;
+}
+
+.paper {
+	height: 4cm;
+}
+
+.scissor {
+	width: 4cm;
+	top: 11%;
+}
+
 
 button {
 	height: 1cm;

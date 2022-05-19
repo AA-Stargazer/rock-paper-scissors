@@ -1,7 +1,0 @@
-document.querySelector(".layer-2 button").addEventListener("mousehover", function() {
-	document.querySelector(".layer-1.left img").attr("src", './images/pexels-peter-dopper-2363901.jpg');
-	alert('it\'s here');
-
-}
-);
-

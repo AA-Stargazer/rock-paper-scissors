@@ -219,7 +219,7 @@ function resetGame() {
 
 	playerScore = 0;
 	computerScore = 0;
-
+	roundCount = 0;
 	playerScoreElement.innerHTML = 'Score';
 	computerScoreElement.innerHTML = 'Score';
 

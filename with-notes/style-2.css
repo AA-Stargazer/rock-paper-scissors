@@ -91,6 +91,7 @@ button {
 
 .player-scoreboard,
 .computer-scoreboard {
+/*	position: absolute; with new update to alignment (flex, main-coluns), this makes the computer-scoreboard invisible, magic... short, Idk the reason*/
 	width: 4cm;
 	text-align: center;
 	padding: 0;
@@ -122,6 +123,7 @@ ul {
 
 .main-column div:nth-child(1),
 .main-column div:nth-child(3) {
+	/* position: absolute; */
 }
 
 

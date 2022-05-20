@@ -1,5 +1,5 @@
 let keepImg = false;
-let roundCount = 0;
+let roundCount = 0; // well actually also can do something like, the winner from every three around gains 1 score and so on... idk, the one who has 2 different wins....
 
 let playerScore = 0;
 let computerScore = 0;
@@ -139,6 +139,20 @@ function showHideImages(players_image, computers_image, show_or_hide) {
 //
 // -------------------- SCOREBOARD -------------------------
 
+// when I searched for "insert" in https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute (you know, maybe something element.insert blabla), there were 3 result "insertAdjacentElement(), insertAdjacentHTML(), insertAdjacentText(). Bingo....
+
+// warning from the MDN: Security considerations
+// When inserting HTML into a page by using insertAdjacentHTML(), be careful not to use user input that hasn't been escaped. 
+
+
+// player_ul.insertAdjacentHTML('beforeend', '<li>it workssssssss</li>');
+
+// NOTE can also do something like, instead of directly directyl deleting the first <li> element when the <li> count reached some number, show the new element as extra and then remove the first viewable <li> with some transition etc... but without removing, for this one's transition, we might need opacity, therefore we will also add "position:absolute". The thing about this is <li> elements just keep gettin aggregated... still it wouldn't take few mb I believe (or create some max round number...)
+
+// another thing can be useful https://developer.mozilla.org/en-US/docs/Web/API/Element/childElementCount (well I could also do it with substracting roundCount and max-element-count(I think 10 would look good), but this is good... (counts closest element, I guess... like <li> in <ul>
+// but if we'll use childElementCount, we might not be able to use the transition time etc... wait... firstly make it's opacity 0 then delete the item, YES...
+
+
 function scoreboard_update(player_choice, computer_choice, add_score_to_) {
 
 	if (add_score_to_ == 'player') {
@@ -161,16 +175,17 @@ function scoreboard_update(player_choice, computer_choice, add_score_to_) {
 
 
 	}
+	/*else {*/
+		player_ul.insertAdjacentHTML(
+			'beforeend' 
+			,`<li><span>${roundCount}.</span> <span>${player_choice}</span></li>`
+		)
+		computer_ul.insertAdjacentHTML(
+			'beforeend' 
+			,`<li><span>${computer_choice}.</span> <span>${roundCount}</span></li>`
+		)
 
-	player_ul.insertAdjacentHTML(
-		'beforeend' 
-		,`<li><span>${roundCount}.</span> <span>${player_choice}</span></li>`
-	)
-	computer_ul.insertAdjacentHTML(
-		'beforeend' 
-		,`<li><span>${computer_choice}.</span> <span>${roundCount}</span></li>`
-	)
-
+	/*}*/
 }
 
 // ---------------------------------------------------------

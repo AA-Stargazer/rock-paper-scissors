@@ -14,6 +14,11 @@ let rock_button = document.querySelector(".layer-2 button:nth-child(1)");
 let paper_button = document.querySelector(".layer-2 button:nth-child(2)");
 let scissor_button = document.querySelector(".layer-2 button:nth-child(3)");
 
+let player_ul = document.querySelector(".player-scoreboard ul");
+let computer_ul = document.querySelector(".computer-scoreboard ul");
+
+let playAgain_resetButton = document.querySelector(".layer-1.middle button");
+
 // ----------------------------- HOVER ---------------------
 rock_button.addEventListener("mouseenter", function() { onhover("rock"); });
 rock_button.addEventListener("mouseout", function() { offhover("rock"); });
@@ -40,7 +45,6 @@ function offhover(choice) {
 
 // ---------------------------------------------------------
 
-let startAndResetButton = document.querySelector(".layer-1.middle button");
 
 rock_button.addEventListener("click", () => {
 	startGame('rock');	
@@ -54,7 +58,7 @@ scissor_button.addEventListener("click", () => {
 
 let choices = ['rock', 'paper', 'scissor'];
 function startGame(clicked_button) {
-		if (!keepImg){
+	if (!keepImg){
 
 		roundCount += 1;
 
@@ -67,6 +71,9 @@ function startGame(clicked_button) {
 		console.log(winner);
 
 		scoreboard_update(clicked_button, computers_choice, winner);
+		if (playerScore - computerScore > 1) endTheGame('player')
+		else if (computerScore - playerScore> 1) endTheGame('computer')
+		{
 
 		setTimeout(
 			() => {
@@ -75,6 +82,8 @@ function startGame(clicked_button) {
 			}
 			, 500
 		);
+
+		}
 	}
 }
 
@@ -109,11 +118,6 @@ function winnerAlgorithm(player, computer) {
 	return "tie";
 }
 
-// resets the game
-function resetGame() {
-	
-}
-
 function showHideImages(players_image, computers_image, show_or_hide) {
 	if (show_or_hide == 'show') {
 		let playerImg = document.querySelector(`.layer-1.left img.${players_image}`);
@@ -140,8 +144,6 @@ function showHideImages(players_image, computers_image, show_or_hide) {
 // warning from the MDN: Security considerations
 // When inserting HTML into a page by using insertAdjacentHTML(), be careful not to use user input that hasn't been escaped. 
 
-let player_ul = document.querySelector(".player-scoreboard ul");
-let computer_ul = document.querySelector(".computer-scoreboard ul");
 
 // player_ul.insertAdjacentHTML('beforeend', '<li>it workssssssss</li>');
 
@@ -164,7 +166,6 @@ function scoreboard_update(player_choice, computer_choice, add_score_to_) {
 	computerScoreElement.innerHTML = computerScore;
 
 	if (player_ul.childElementCount > 10) {
-		// do something
 		// when function recalled, this will automatically redeclared to the new value...
 		let playerScoreFirstElement = document.querySelector(".player-scoreboard ul li:nth-child(1)");
 		player_ul.removeChild(playerScoreFirstElement);
@@ -186,5 +187,64 @@ function scoreboard_update(player_choice, computer_choice, add_score_to_) {
 
 	/*}*/
 }
+
+// ---------------------------------------------------------
+//
+// -------------------- RESET THE GAME ---------------------
+
+playAgain_resetButton.addEventListener("click", () => {
+	resetGame();
+});
+
+// resets the game
+function resetGame() {
+	let playerScoreLi = document.querySelector(".player-scoreboard ul li:nth-child(1)");
+	let computerScoreLi = document.querySelector(".computer-scoreboard ul li:nth-child(1)");
+	let p_count = player_ul.childElementCount;
+/*	let c_count = computerScoreLi.childElementCount(); one of it is enough */
+	
+	while (p_count > 0) {
+		if (playerScoreLi !== null) {
+			player_ul.removeChild(playerScoreLi);
+			playerScoreLi = document.querySelector(".player-scoreboard ul li:nth-child(1)");
+	
+			computer_ul.removeChild(computerScoreLi);
+			computerScoreLi = document.querySelector(".computer-scoreboard ul li:nth-child(1)");
+			p_count = player_ul.childElementCount;
+		}
+		else {
+			p_count = 0;
+		}
+	}
+
+	playerScore = 0;
+	computerScore = 0;
+
+	playerScoreElement.innerHTML = 'Score';
+	computerScoreElement.innerHTML = 'Score';
+
+}
+
+// ---------------------------------------------------------
+//
+// -------------------- END THE GAME  ----------------------
+
+
+function endTheGame(winner) {
+
+	console.log(`winner is ${winner}`);
+	resetGame();	
+
+}
+
+
+
+
+
+
+
+
+
+
 
 

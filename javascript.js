@@ -1,18 +1,10 @@
-/*
-let a = document.querySelector(".layer-2 button");
-a.addEventListener("mouseenter", aaa);
-function aaa() {
-	document.querySelector(".layer-1.left img").setAttribute("src", './images/pexels-peter-dopper-2363901.jpg');
-}
-a.addEventListener("mouseout", bbb);
-function bbb() {
-	document.querySelector(".layer-1.left img").setAttribute("src", '');
-} */
-// https://stackoverflow.com/questions/50054982/faster-image-changing-in-js
-
-
 let keepImg = false;
+let roundCount = 0; // well actually also can do something like, the winner from every three around gains 1 score and so on... idk, the one who has 2 different wins....
 
+let playerScore = 0;
+let computerScore = 0;
+let playerScoreElement = document.querySelector(".player-scoreboard h3");
+let computerScoreElement = document.querySelector(".computer-scoreboard h3");
 
 let rock_image = document.querySelector("img.rock");
 let paper_image = document.querySelector("img.paper");
@@ -22,8 +14,7 @@ let rock_button = document.querySelector(".layer-2 button:nth-child(1)");
 let paper_button = document.querySelector(".layer-2 button:nth-child(2)");
 let scissor_button = document.querySelector(".layer-2 button:nth-child(3)");
 
-// ----------------------------- hover ---------
-// pff, isn't there something like dict in python, so we could loop it... (hmm, yes we have I guess https://pietschsoft.com/post/2015/09/05/javascript-basics-how-to-create-a-dictionary-with-keyvalue-pairs, that's later...)
+// ----------------------------- HOVER ---------------------
 rock_button.addEventListener("mouseenter", function() { onhover("rock"); });
 rock_button.addEventListener("mouseout", function() { offhover("rock"); });
 
@@ -33,40 +24,23 @@ paper_button.addEventListener("mouseout", function() { offhover("paper"); });
 scissor_button.addEventListener("mouseenter", function() { onhover("scissor"); });
 scissor_button.addEventListener("mouseout", function() { offhover("scissor"); });
 
-
-
 function onhover(choice) {
 	if (!keepImg) {
-	let element = document.querySelector(`.layer-1.left img.${choice}`);
-	// display is not attribute
-	// https://stackoverflow.com/a/4981472
-	// element.setAttribute("display", "block");
-	// not this is works
-	// element.setAttribute("style", "display:block");
-	// but also like in the link (comment)
-	/* element.style.display = 'block'; */
-	element.style.opacity = 1;
-
-	// no this and normal one's simple reason connected in my mind... anyway...
+	let element = document.querySelector(`.layer-1.left img.${choice}`);	
+	element.setAttribute("style", "opacity: 1");
 	}
 }
 
 function offhover(choice) {
 	if (!keepImg) {
 	let element = document.querySelector(`.layer-1.left img.${choice}`);
-	/* element.setAttribute("style", "display: none"); */
 	element.setAttribute("style", "opacity: 0");
 	}
 }
-// ---------------------------------------------
 
+// ---------------------------------------------------------
 
 let startAndResetButton = document.querySelector(".layer-1.middle button");
-
-// startAndResetButton.addEventListener("click", startGame);  
-
-// TODO create a new boolean value, keep_image. chosen choices' images stays for few seconds on the screen. And while this value is also true, add if statement to startGame, so until images be transparent again, clicked button does nothing (as well as use this in onhover, offhover, so also player images not change...) (of if there is something like time.sleep() in python, we might not need extra 'if' statements... you know, not concurrent etc, but if it is, still nice, we can do lot of other things or just create few extra javascript files and seperate the things that gotta run constantly and that requires some sleep...)...
-// NOTE ok, https://www.sitepoint.com/delay-sleep-pause-wait/ looks like, firstly I need a bit time until come to these (fully understanding, secondly I'll create keep_image boolean (async is good...)
 
 rock_button.addEventListener("click", () => {
 	startGame('rock');	
@@ -79,24 +53,31 @@ scissor_button.addEventListener("click", () => {
 });
 
 let choices = ['rock', 'paper', 'scissor'];
-// choses the random choice and expresses the result
 function startGame(clicked_button) {
 		if (!keepImg){
+
+		roundCount += 1;
+
 		computers_choice = choices[Math.floor(Math.random() * 3)];
+
 		keepImg = true;
 		showHideImages(clicked_button, computers_choice, 'show');
-		console.log(winnerAlgorithm(clicked_button, computers_choice));
+
+		winner = winnerAlgorithm(clicked_button, computers_choice);
+		console.log(winner);
+
+		scoreboard_update(clicked_button, computers_choice, winner);
+
 		setTimeout(
 			() => {
 			keepImg = false;
 			showHideImages(clicked_button, computers_choice, 'hide');
 			}
-			, 3000
+			, 500
 		);
 	}
 }
 
-// maybe I could use switch statement here...
 function winnerAlgorithm(player, computer) {
 	if (
 		(player == "rock" && computer == "paper")
@@ -133,7 +114,6 @@ function resetGame() {
 	
 }
 
-
 function showHideImages(players_image, computers_image, show_or_hide) {
 	if (show_or_hide == 'show') {
 		let playerImg = document.querySelector(`.layer-1.left img.${players_image}`);
@@ -151,5 +131,60 @@ function showHideImages(players_image, computers_image, show_or_hide) {
 	}
 }
 
+// ---------------------------------------------------------
+//
+// -------------------- SCOREBOARD -------------------------
 
-// TODO make the game min 3 round (until difference is 2), and then reset.... show the result in a box (position: absolute...) (create a element inside to that box)
+// when I searched for "insert" in https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute (you know, maybe something element.insert blabla), there were 3 result "insertAdjacentElement(), insertAdjacentHTML(), insertAdjacentText(). Bingo....
+
+// warning from the MDN: Security considerations
+// When inserting HTML into a page by using insertAdjacentHTML(), be careful not to use user input that hasn't been escaped. 
+
+let player_ul = document.querySelector(".player-scoreboard ul");
+let computer_ul = document.querySelector(".computer-scoreboard ul");
+
+// player_ul.insertAdjacentHTML('beforeend', '<li>it workssssssss</li>');
+
+// NOTE can also do something like, instead of directly directyl deleting the first <li> element when the <li> count reached some number, show the new element as extra and then remove the first viewable <li> with some transition etc... but without removing, for this one's transition, we might need opacity, therefore we will also add "position:absolute". The thing about this is <li> elements just keep gettin aggregated... still it wouldn't take few mb I believe (or create some max round number...)
+
+// another thing can be useful https://developer.mozilla.org/en-US/docs/Web/API/Element/childElementCount (well I could also do it with substracting roundCount and max-element-count(I think 10 would look good), but this is good... (counts closest element, I guess... like <li> in <ul>
+// but if we'll use childElementCount, we might not be able to use the transition time etc... wait... firstly make it's opacity 0 then delete the item, YES...
+
+
+function scoreboard_update(player_choice, computer_choice, add_score_to_) {
+
+	if (add_score_to_ == 'player') {
+		playerScore += 1;
+	}
+	else if (add_score_to_ == 'computer') {
+		computerScore += 1;
+	}
+	
+	playerScoreElement.innerHTML = playerScore;
+	computerScoreElement.innerHTML = computerScore;
+
+	if (player_ul.childElementCount > 10) {
+		// do something
+		// when function recalled, this will automatically redeclared to the new value...
+		let playerScoreFirstElement = document.querySelector(".player-scoreboard ul li:nth-child(1)");
+		player_ul.removeChild(playerScoreFirstElement);
+
+		let computerScoreFirstElement = document.querySelector(".computer-scoreboard ul li:nth-child(1)");
+		computer_ul.removeChild(computerScoreFirstElement);
+
+
+	}
+	/*else {*/
+		player_ul.insertAdjacentHTML(
+			'beforeend' 
+			,`<li><span>${roundCount}.</span> <span>${player_choice}</span></li>`
+		)
+		computer_ul.insertAdjacentHTML(
+			'beforeend' 
+			,`<li><span>${computer_choice}.</span> <span>${roundCount}</span></li>`
+		)
+
+	/*}*/
+}
+
+

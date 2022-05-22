@@ -15,7 +15,6 @@ body,html {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	gap: 2%;
 	z-index: 1000;
 }
 
@@ -35,7 +34,26 @@ body,html {
 .layer-1.left {
 	grid-row: 1/2;
 	grid-column: 1/2;
+	display: flex;
+	/* flex-direction: column;
+	gap: 0.5cm;*/
+	width: 4.5cm;
 }
+
+#rock-box {
+	position: absolute;
+	margin-bottom: 9.5cm;
+}
+
+#paper-box {
+	position: absolute;
+}
+
+#scissor-box {
+	position: absolute;
+	margin-top: 9.5cm;
+}
+
 
 .layer-1.middle {
 	grid-row: 1/2;
@@ -47,13 +65,9 @@ body,html {
 	grid-column: 3/4;
 }
 
-.layer-1.bottom {
-	grid-row: 2/3;
-	grid-column: 1/4;
-	display: flex;
-	justify-content: left;
-	/* margin-left: 2mm; */
-}
+
+
+
 .layer-1.left div,
 .layer-1.right div {
 	width: 4cm;
@@ -62,27 +76,55 @@ body,html {
 	box-shadow: 0 0 0 2mm black;
 	overflow: hidden;
 	position: relative;
+	transition: 0.2s;
+}
+
+.layer-1.left div p {
+	position: absolute;
+	z-index: -100;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	left: 38%;
+	top: 32%;
+}
+
+.layer-1.left div a {
+	width: 100%;
+	height: 100%;
+}
+
+
+.layer-1.right p {
+	position: absolute;
+	z-index: 100;
+	top: 31%;
+	left: 36%;
+	text-align: center;
+	opacity: 0;
 }
 
 
 .rock, .paper, .scissor {
-	opacity: 0;
-	position: absolute;
-	transition-duration: 0.3s;
+	opacity: 1;
+	transition-duration: 0.2s;
+	position: relative;
 }
 
-.rock {
-	height: 4cm;
-	left: -27%;
+.layer-1.left .rock {
+	height: 110%;
+	left: -33%;
+	bottom: 8%;
 }
 
-.paper {
-	height: 4cm;
+.layer-1.left .paper {
+	height: 100%;
 }
 
-.scissor {
-	width: 4cm;
-	top: 11%;
+.layer-1.left .scissor {
+	width: 94%;
+	top: 14%;
+	left: 2%;
 }
 
 button {

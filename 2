@@ -124,7 +124,6 @@ function offHover(div_num) {
 
 
 let choices = ['rock', 'paper', 'scissor'];
-// well actualy start the round
 function startGame(clicked_button) {
 	if (!keepImg){
 
@@ -140,8 +139,6 @@ function startGame(clicked_button) {
 
 		winner = winnerAlgorithm(clicked_button, computers_choice);
 		console.log(winner);
-		
-		showComputerChosenImg(choiceToNum(computers_choice));
 
 		scoreboard_update(clicked_button, computers_choice, winner);
 		if (playerScore - computerScore > 1) endTheGame('player', clicked_button)
@@ -192,11 +189,6 @@ function winnerAlgorithm(player, computer) {
 	return "tie";
 }
 
-
-function showComputerChosenImg(_choice) {
-	
-}
-
 // ---------------------------------------------------------
 //
 // -------------------- SCOREBOARD -------------------------
@@ -220,6 +212,7 @@ function scoreboard_update(player_choice, computer_choice, add_score_to_) {
 
 		let computerScoreFirstElement = document.querySelector(".computer-scoreboard ul li:nth-child(1)");
 		computer_ul.removeChild(computerScoreFirstElement);
+
 
 	}
 
@@ -271,8 +264,7 @@ function resetGame(last_chosen) {
 	computerScoreElement.innerHTML = 'Score';
 	//--------------
 	
-	//----------reset the choices... gotta use setTimeout because startGame code not reaches the img... oh wait.. just need to keepImg = false
-	keepImg = false;
+	//----------reset the choices...
 	offHover(choiceToNum(last_chosen));
 	offClick(choiceToNum(last_chosen));
 }
@@ -284,7 +276,7 @@ function resetGame(last_chosen) {
 function endTheGame(winner, last_chosen) {
 
 	console.log(`winner is ${winner}`);
-	resetGame(last_chosen);
+	resetGame(last_chosen);	
 
 }
 

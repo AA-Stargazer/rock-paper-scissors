@@ -1,4 +1,46 @@
-// for my previous problem: https://stackoverflow.com/a/18605588
+
+
+
+
+
+
+
+
+
+// BIG UPDATE, FREAKING ANCHOR TAG CAUSING PAGE TO RELOAD, WHETHER WILL REMOVE THE ANCHOR TAG AND CONTINUE LIKE THAT (WHICH TOTALLY CAN DO, CAN ALSO CHANGE THE CURSOR IMAGE ETC ON THE DIV ETC...), OR WILL PREVENT IT IF CAN BE, I SPENT MY FEW HOURS FOR THIS, THEREFORE THIS WILL BE ADDED TO with-notes FOLDER...
+// (I was thinking why the heck console always being reseted... -_-)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 let keepImg = false;
 let roundCount = 0;
@@ -25,7 +67,7 @@ let playAgain_resetButton = document.querySelector(".layer-1.middle button");
 // ----------------------------- HOVER/CLICK && CLICK FUNC ---------------------
 
 // hover
-rock_box.addEventListener("mouseenter", () => onHover(1));
+/*rock_box.addEventListener("mouseenter", () => onHover(1));
 rock_box.addEventListener("mouseout", () => offHover(1));
 
 paper_box.addEventListener("mouseenter", () => onHover(2));
@@ -33,13 +75,13 @@ paper_box.addEventListener("mouseout", () => offHover(2));
 
 scissor_box.addEventListener("mouseenter", () => onHover(3));
 scissor_box.addEventListener("mouseout", () => offHover(3));
-//
+//*/
 
 // click
 rock_button.addEventListener("click", () => {
-	startGame('rock');	
+	onClick(1);	
 });
-
+/*
 paper_button.addEventListener("click", () => {
 	startGame('paper');
 });
@@ -47,7 +89,7 @@ paper_button.addEventListener("click", () => {
 scissor_button.addEventListener("click", () => {
 	startGame('scissor');
 });
-//
+//*/
 
 function onClick(div_num) {
 	console.log(div_num);
@@ -58,18 +100,18 @@ function onClick(div_num) {
 			document.querySelector(`.layer-1.left div:nth-child(${arr[i]})`).setAttribute("style", "opacity: 0;");
 		}
 
-		if (div_num == 1) {
+		/*if (div_num == 1) {
 			document.querySelector('#rock-box').setAttribute('style', 'margin-bottom: 0');
 		}
 		else if (div_num == 3) {
 			document.querySelector('#scissor-box').setAttribute('style', 'margin-top: 0');
-		}
+		}*/
 	}
 }
 
 function offClick(div_num) {
 	if (!keepImg) {
-		let arr = choseNums(div_num);
+		let arr = choseNums(choiceToNum(div_num))
 		for (let i = 0; i < arr.length; i++) {
 			document.querySelector(`.layer-1.left div:nth-child(${arr[i]})`).setAttribute("style", "opacity: 1");
 		}
@@ -90,6 +132,7 @@ function choseNums(divNumToShown) {
 	else if (divNumToShown == '2') return [1,3]
 	else if (divNumToShown == '3') return [1,2];
 }
+
 
 // cs50 week3, yeah, going with numbers is now looks a good idea in the first place
 function choiceToNum(_choice) {
@@ -122,9 +165,23 @@ function offHover(div_num) {
 //
 // -------------------------------- GAME PLAY -----------------------
 
+function startGame(clicked_button) {
 
+
+
+
+
+
+
+
+
+
+
+}
+
+
+/*
 let choices = ['rock', 'paper', 'scissor'];
-// well actualy start the round
 function startGame(clicked_button) {
 	if (!keepImg){
 
@@ -140,26 +197,22 @@ function startGame(clicked_button) {
 
 		winner = winnerAlgorithm(clicked_button, computers_choice);
 		console.log(winner);
-		
-		showComputerChosenImg(choiceToNum(computers_choice));
 
 		scoreboard_update(clicked_button, computers_choice, winner);
-		if (playerScore - computerScore > 1) endTheGame('player', clicked_button)
-		else if (computerScore - playerScore > 1) endTheGame('computer', clicked_button)
+		if (playerScore - computerScore > 1) {endTheGame('player')}
+		else if (computerScore - playerScore > 1) {endTheGame('computer')}
 		else {
 			setTimeout(
 				() => {
 					keepImg = false;
-					offClick(divNum);
-					offHover(divNum);
+					console.log('it\'s here');
 				}
-				, 1000
+				, 3000
 			);
 		}
-
 	}
 }
-
+*/
 
 function winnerAlgorithm(player, computer) {
 	if (
@@ -192,11 +245,6 @@ function winnerAlgorithm(player, computer) {
 	return "tie";
 }
 
-
-function showComputerChosenImg(_choice) {
-	
-}
-
 // ---------------------------------------------------------
 //
 // -------------------- SCOREBOARD -------------------------
@@ -221,6 +269,7 @@ function scoreboard_update(player_choice, computer_choice, add_score_to_) {
 		let computerScoreFirstElement = document.querySelector(".computer-scoreboard ul li:nth-child(1)");
 		computer_ul.removeChild(computerScoreFirstElement);
 
+
 	}
 
 	player_ul.insertAdjacentHTML(
@@ -243,9 +292,7 @@ playAgain_resetButton.addEventListener("click", () => {
 });
 
 // resets the game
-function resetGame(last_chosen) {
-
-	//---------- reset score board
+function resetGame() {
 	let playerScoreLi = document.querySelector(".player-scoreboard ul li:nth-child(1)");
 	let computerScoreLi = document.querySelector(".computer-scoreboard ul li:nth-child(1)");
 	let p_count = player_ul.childElementCount;
@@ -269,24 +316,24 @@ function resetGame(last_chosen) {
 	roundCount = 0;
 	playerScoreElement.innerHTML = 'Score';
 	computerScoreElement.innerHTML = 'Score';
-	//--------------
-	
-	//----------reset the choices... gotta use setTimeout because startGame code not reaches the img... oh wait.. just need to keepImg = false
-	keepImg = false;
-	offHover(choiceToNum(last_chosen));
-	offClick(choiceToNum(last_chosen));
+
 }
 
 // ---------------------------------------------------------
 //
 // -------------------- END THE GAME  ----------------------
 
-function endTheGame(winner, last_chosen) {
+
+function endTheGame(winner) {
 
 	console.log(`winner is ${winner}`);
-	resetGame(last_chosen);
+	resetGame();	
 
 }
+
+
+
+
 
 
 

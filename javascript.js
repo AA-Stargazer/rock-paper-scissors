@@ -312,7 +312,7 @@ function endTheGame(winner, last_chosen, computers_choice) {
 }
 
 
-
+// whats up
 
 
 

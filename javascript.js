@@ -1,5 +1,7 @@
 // for my previous problem: https://stackoverflow.com/a/18605588
 
+let keepGameOn = true;
+
 let keepImg = false;
 let roundCount = 0;
 
@@ -118,6 +120,7 @@ function offHover(div_num) {
 	}
 }
 
+
 // ------------------------------------------------------------------
 //
 // -------------------------------- GAME PLAY -----------------------
@@ -127,6 +130,8 @@ let choices = ['rock', 'paper', 'scissor'];
 // well actualy start the round
 function startGame(clicked_button) {
 	if (!keepImg){
+
+		if (playAgain_resetButton.innerHTML == 'play again') playAgain_resetButton.innerHTML = 'reset';
 
 		divNum = choiceToNum(clicked_button);
 		onClick(divNum);
@@ -141,17 +146,18 @@ function startGame(clicked_button) {
 		winner = winnerAlgorithm(clicked_button, computers_choice);
 		console.log(winner);
 		
-		showComputerChosenImg(choiceToNum(computers_choice));
+		showComputerChosenImg(computers_choice);
 
 		scoreboard_update(clicked_button, computers_choice, winner);
-		if (playerScore - computerScore > 1) endTheGame('player', clicked_button)
-		else if (computerScore - playerScore > 1) endTheGame('computer', clicked_button)
+		if (playerScore - computerScore > 1) endTheGame('player', clicked_button, computers_choice)
+		else if (computerScore - playerScore > 1) endTheGame('computer', clicked_button, computers_choice)
 		else {
 			setTimeout(
 				() => {
 					keepImg = false;
 					offClick(divNum);
 					offHover(divNum);
+					hideComputerChosenImg(computers_choice);
 				}
 				, 1000
 			);
@@ -194,8 +200,17 @@ function winnerAlgorithm(player, computer) {
 
 
 function showComputerChosenImg(_choice) {
-	
+	let tmp_img = document.querySelector(`.layer-1.right .${_choice}`);
+	console.log(`.layer-1.right .${_choice}`);
+	tmp_img.setAttribute("style", "opacity: 1");
 }
+
+function hideComputerChosenImg(_choice) {
+	let tmp_img = document.querySelector(`.layer-1.right .${_choice}`);
+	console.log(`.layer-1.right .${_choice}`);
+	tmp_img.setAttribute("style", "opacity: 0");
+}
+
 
 // ---------------------------------------------------------
 //
@@ -243,7 +258,7 @@ playAgain_resetButton.addEventListener("click", () => {
 });
 
 // resets the game
-function resetGame(last_chosen) {
+function resetGame(last_chosen, computers_choice) {
 
 	//---------- reset score board
 	let playerScoreLi = document.querySelector(".player-scoreboard ul li:nth-child(1)");
@@ -271,20 +286,28 @@ function resetGame(last_chosen) {
 	computerScoreElement.innerHTML = 'Score';
 	//--------------
 	
-	//----------reset the choices... gotta use setTimeout because startGame code not reaches the img... oh wait.. just need to keepImg = false
-	keepImg = false;
-	offHover(choiceToNum(last_chosen));
-	offClick(choiceToNum(last_chosen));
+	//----------reset the choices...
+	setTimeout( () => {
+		keepImg = false;
+		offHover(choiceToNum(last_chosen));
+		offClick(choiceToNum(last_chosen));
+		hideComputerChosenImg(computers_choice);
+
+	}
+	, 1000
+	);
+
+	if (playAgain_resetButton.innerHTML == 'reset') playAgain_resetButton.innerHTML = 'play again';
 }
 
 // ---------------------------------------------------------
 //
 // -------------------- END THE GAME  ----------------------
 
-function endTheGame(winner, last_chosen) {
+function endTheGame(winner, last_chosen, computers_choice) {
 
-	console.log(`winner is ${winner}`);
-	resetGame(last_chosen);
+	alert(`winner is ${winner}`);
+	resetGame(last_chosen, computers_choice);
 
 }
 

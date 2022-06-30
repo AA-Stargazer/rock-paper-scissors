@@ -66,8 +66,6 @@ body,html {
 }
 
 
-
-
 .layer-1.left div,
 .layer-1.right div {
 	width: 4cm;
@@ -94,7 +92,6 @@ body,html {
 	height: 100%;
 }
 
-
 .layer-1.right p {
 	position: absolute;
 	z-index: 100;
@@ -104,27 +101,38 @@ body,html {
 	opacity: 0;
 }
 
-
-.rock, .paper, .scissor {
+.layer-1.left .rock, 
+.layer-1.left .paper, 
+.layer-1.left .scissor {
 	opacity: 1;
 	transition-duration: 0.2s;
 	position: relative;
 }
 
-.layer-1.left .rock {
-	height: 110%;
-	left: -33%;
-	bottom: 8%;
+.layer-1.left .rock,
+.layer-1.right .rock {
+	height: 100%;
+	left: -29%;
 }
 
-.layer-1.left .paper {
+.layer-1.left .paper,
+.layer-1.right .paper {
 	height: 100%;
 }
 
-.layer-1.left .scissor {
+.layer-1.left .scissor,
+.layer-1.right .scissor {
 	width: 94%;
 	top: 14%;
 	left: 2%;
+}
+
+.layer-1.right .rock,
+.layer-1.right .paper,
+.layer-1.right .scissor {
+	transition-duration: 0.2s;
+	position: absolute;
+	opacity: 0;
 }
 
 button {

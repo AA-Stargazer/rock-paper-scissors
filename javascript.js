@@ -24,8 +24,9 @@ let computer_ul = document.querySelector(".computer-scoreboard ul");
 
 let resetButton = document.querySelector(".layer-1.middle button");
 
+let wannaPlayAgainButton = document.querySelector(".decision-window button");
 
-// ----------------------------- HOVER/CLICK && CLICK FUNC ---------------------
+// ----------------------------- HOVER/CLICK && HOVER/CLICK FUNC ---------------------
 
 // hover
 rock_box.addEventListener("mouseenter", () => onHover(1));
@@ -49,6 +50,10 @@ paper_button.addEventListener("click", () => {
 
 scissor_button.addEventListener("click", () => {
 	startGame('scissor');
+});
+
+wannaPlayAgainButton.addEventListener("click", () => {
+	startFromBegining();
 });
 //
 
@@ -316,7 +321,7 @@ function endTheGame(winner, last_chosen, computers_choice) {
 		body.setAttribute('style', 'background-color: blue');
 	*/
 	showDecisionWindow(winner);
-	alert(`winner is ${winner}`);
+	// alert(`winner is ${winner}`);
 
 	resetGame(last_chosen, computers_choice);
 
@@ -334,14 +339,14 @@ function endTheGame(winner, last_chosen, computers_choice) {
 /* I was thinking that why it wasn't updating. Note in this url https://www.w3schools.com/jsref/met_element_setattribute.asp, so yes, we should use .style etc....*/
 function showDecisionWindow(winner) {
 	const decisionDiv = document.querySelector('.decision-window div h2');
-
+	const decisionWindowH = document.querySelector('.decision-window div div h2');
 
 	const decisionWindow = document.querySelector('.decision-window');
 	if (winner == 'computer')
 	{
 		/*decisionWindow.setAttribute('style', 'background-color: #990033;');*/
 		decisionWindow.style.backgroundColor = '#990033';
-		decisionDiv.innerText = 'You loser';
+		decisionDiv.innerText = 'You lose, but don\'t give up';
 	}
 	else if (winner == 'player')
 	{
@@ -357,18 +362,71 @@ function showDecisionWindow(winner) {
 	decisionWindow.setAttribute('style', 'opacity: 1;');*/
 	decisionWindow.style.display = 'flex';
 	decisionWindow.style.zIndex = '500';
-	decisionWindow.style.opacity = '1';
+	
+	const rockBox = document.querySelector(`.layer-1.left div:nth-child(1)`)
+	const scissorsBox = document.querySelector(`.layer-1.left div:nth-child(3)`)
+
+	rockBox.style.marginBottom = '0';
+	scissorsBox.style.marginTop = '0';
+
+
+	// without this setTimeout, the transition-duration wasn't showing the effect... 
 	setTimeout(
 		() => {
-
+			decisionWindow.style.opacity = '1';
+			decisionWindowH.style.opacity = '1';
 		}
-		,0
-	)
+		,10
+	);
 }
 
 
 // whats up
+// ---------------------------------------------------------
+//
+// -------------------- START FROM BEGINING ----------------
 
+
+// actually could use the keepGameOn, but just using z-index etc both easier for me and a bit easier for other programmers to understand if they ever want to look at the code...
+function startFromBegining() {
+
+	const decisionWindow = document.querySelector('.decision-window');
+	const decisionWindowH = document.querySelector('.decision-window h2');
+
+	// decisionWindow.style.animationDuration = '1.3';
+	// decisionWindowP.style.animationDuration = '1';
+	decisionWindow.style.transition = '1.3s';
+	decisionWindowH.style.transition = '1s';
+	
+	decisionWindow.style.opacity = '0';
+	decisionWindowH.style.opacity = '0';
+
+	const rockBox = document.querySelector(`.layer-1.left div:nth-child(1)`)
+	const scissorsBox = document.querySelector(`.layer-1.left div:nth-child(3)`)
+
+	setTimeout(
+		() => {
+			// decisionWindow.style.animationDuration = '1';
+			// decisionWindowP.style.animationDuration = '1.3';
+			decisionWindow.style.transition = '1s';
+			decisionWindowH.style.transition = '1.3s';
+			
+			decisionWindow.style.zIndex = '500';
+			decisionWindow.style.display = 'none';
+			
+		}
+		,1300
+	);
+
+	setTimeout(
+		() => {
+			rockBox.style.marginBottom = '9.5cm';
+			scissorsBox.style.marginTop = '9.5cm';
+		}
+		,1500
+	);
+
+}
 
 
 

@@ -185,7 +185,8 @@ ul {
 	z-index: -500;
 	display: none;
 	opacity: 0;
-	animation-duration: 1s;
+	/* animation-duration: 1s; */
+	transition-duration: 1s;
 	align-items: center;
 	justify-content: center;
 }
@@ -209,5 +210,12 @@ ul {
 	align-items: center;
 	text-align: center;
 }
+
+.decision-window h2 {
+	/* animation-duration: 1.3s; */
+	transition-duration: 1.3s;
+	opacity: 0;
+}
+
 
 

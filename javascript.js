@@ -292,12 +292,12 @@ function resetGame(last_chosen, computers_choice) {
 		offHover(choiceToNum(last_chosen));
 		offClick(choiceToNum(last_chosen));
 		hideComputerChosenImg(computers_choice);
-
 	}
 	, 1000
 	);
 
-	if (playAgain_resetButton.innerHTML == 'reset') playAgain_resetButton.innerHTML = 'play again';
+	if (playAgain_resetButton.innerHTML == 'reset') 
+		playAgain_resetButton.innerHTML = 'play again';
 }
 
 // ---------------------------------------------------------
@@ -305,10 +305,58 @@ function resetGame(last_chosen, computers_choice) {
 // -------------------- END THE GAME  ----------------------
 
 function endTheGame(winner, last_chosen, computers_choice) {
+	keepGameOn = false;
+	const body = document.querySelector('body');
 
+	/*
+	if (winner == 'computer')
+		body.setAttribute('style', 'background-color: red')
+	else
+		body.setAttribute('style', 'background-color: blue');
+	*/
+	showDecisionWindow(winner);
 	alert(`winner is ${winner}`);
+
 	resetGame(last_chosen, computers_choice);
 
+	setTimeout(
+		() => {
+			keepGameOn = true;
+		}
+		,5000
+	);
+
+
+}
+
+
+/* I was thinking that why it wasn't updating. Note in this url https://www.w3schools.com/jsref/met_element_setattribute.asp, so yes, we should use .style etc....*/
+function showDecisionWindow(winner) {
+	const decisionDiv = document.querySelector('.decision-window div p');
+
+
+	const decisionWindow = document.querySelector('.decision-window');
+	if (winner == 'computer')
+	{
+		/*decisionWindow.setAttribute('style', 'background-color: #990033;');*/
+		decisionWindow.style.backgroundColor = '#990033';
+		decisionDiv.innerText = 'You loser';
+	}
+	else if (winner == 'player')
+	{
+		/*decisionWindow.setAttribute('style', 'background-color: #009999;');*/
+		decisionWindow.style.backgroundColor = '#009999';
+		decisionDiv.innerText = 'You win, congrats!';
+	}
+	else
+	{
+		
+	}
+	/*decisionWindow.setAttribute('style', "display: initial; z-index: 500;");
+	decisionWindow.setAttribute('style', 'opacity: 1;');*/
+	decisionWindow.style.display = 'flex';
+	decisionWindow.style.zIndex = '500';
+	decisionWindow.style.opacity = '1';
 }
 
 

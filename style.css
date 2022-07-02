@@ -186,17 +186,28 @@ ul {
 	display: none;
 	opacity: 0;
 	animation-duration: 1s;
-	justify-content: center;
 	align-items: center;
+	justify-content: center;
 }
 
 
-.decision-window div {
-	width: 5cm;
-	height: 5cm;
+.decision-window > div {
+	width: 6cm;
+	height: 6cm;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+
+.decision-window div div {
+	width: 9cm;
+	height: 3.8cm;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
 }
+
 

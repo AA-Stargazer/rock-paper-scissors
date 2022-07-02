@@ -22,7 +22,8 @@ let scissor_button = document.querySelector(".layer-1.left div:nth-child(3)");
 let player_ul = document.querySelector(".player-scoreboard ul");
 let computer_ul = document.querySelector(".computer-scoreboard ul");
 
-let playAgain_resetButton = document.querySelector(".layer-1.middle button");
+let resetButton = document.querySelector(".layer-1.middle button");
+
 
 // ----------------------------- HOVER/CLICK && CLICK FUNC ---------------------
 
@@ -131,7 +132,7 @@ let choices = ['rock', 'paper', 'scissor'];
 function startGame(clicked_button) {
 	if (!keepImg){
 
-		if (playAgain_resetButton.innerHTML == 'play again') playAgain_resetButton.innerHTML = 'reset';
+		if (resetButton.innerHTML == 'play again') resetButton.innerHTML = 'reset';
 
 		divNum = choiceToNum(clicked_button);
 		onClick(divNum);
@@ -253,7 +254,7 @@ function scoreboard_update(player_choice, computer_choice, add_score_to_) {
 //
 // -------------------- RESET THE GAME ---------------------
 
-playAgain_resetButton.addEventListener("click", () => {
+resetButton.addEventListener("click", () => {
 	resetGame();
 });
 
@@ -296,8 +297,8 @@ function resetGame(last_chosen, computers_choice) {
 	, 1000
 	);
 
-	if (playAgain_resetButton.innerHTML == 'reset') 
-		playAgain_resetButton.innerHTML = 'play again';
+	if (resetButton.innerHTML == 'reset') 
+		resetButton.innerHTML = 'play again';
 }
 
 // ---------------------------------------------------------
@@ -332,7 +333,7 @@ function endTheGame(winner, last_chosen, computers_choice) {
 
 /* I was thinking that why it wasn't updating. Note in this url https://www.w3schools.com/jsref/met_element_setattribute.asp, so yes, we should use .style etc....*/
 function showDecisionWindow(winner) {
-	const decisionDiv = document.querySelector('.decision-window div p');
+	const decisionDiv = document.querySelector('.decision-window div h2');
 
 
 	const decisionWindow = document.querySelector('.decision-window');
@@ -357,6 +358,12 @@ function showDecisionWindow(winner) {
 	decisionWindow.style.display = 'flex';
 	decisionWindow.style.zIndex = '500';
 	decisionWindow.style.opacity = '1';
+	setTimeout(
+		() => {
+
+		}
+		,0
+	)
 }
 
 

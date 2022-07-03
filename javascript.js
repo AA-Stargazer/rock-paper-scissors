@@ -144,7 +144,8 @@ function startGame(clicked_button) {
 
 		roundCount += 1;
 
-		computers_choice = choices[Math.floor(Math.random() * 3)];
+		// computers_choice = choices[Math.floor(Math.random() * 3)];
+		computers_choice = 'rock';
 
 		keepImg = true;
 		// showHideImages(computers_choice, 'show');
@@ -363,13 +364,7 @@ function showDecisionWindow(winner) {
 	decisionWindow.style.display = 'flex';
 	decisionWindow.style.zIndex = '500';
 	
-	const rockBox = document.querySelector(`.layer-1.left div:nth-child(1)`)
-	const scissorsBox = document.querySelector(`.layer-1.left div:nth-child(3)`)
-
-	rockBox.style.marginBottom = '0';
-	scissorsBox.style.marginTop = '0';
-
-
+	
 	// without this setTimeout, the transition-duration wasn't showing the effect... 
 	setTimeout(
 		() => {
@@ -378,6 +373,23 @@ function showDecisionWindow(winner) {
 		}
 		,10
 	);
+
+	const rockBox = document.querySelector(`.layer-1.left div:nth-child(1)`)
+	const scissorsBox = document.querySelector(`.layer-1.left div:nth-child(3)`)
+	
+	const layerImgs = document.querySelector('.layer-1.left img');
+	
+	// beecuase after a second, offClick executed (in the startGame) and I don't want to create another variable which would make things way more complicated, I'll setTimeout for these
+	setTimeout(
+		() => {
+			rockBox.style.marginBottom = '0';
+			scissorsBox.style.marginTop = '0';
+			layerImgs.style.display = 'none';
+		}
+		,1010
+	);
+
+
 }
 
 
@@ -392,6 +404,11 @@ function startFromBegining() {
 
 	const decisionWindow = document.querySelector('.decision-window');
 	const decisionWindowH = document.querySelector('.decision-window h2');
+	
+	const rockBox = document.querySelector(`.layer-1.left div:nth-child(1)`)
+	const scissorsBox = document.querySelector(`.layer-1.left div:nth-child(3)`)
+	
+	const layerImgs = document.querySelector('.layer-1.left img');
 
 	// decisionWindow.style.animationDuration = '1.3';
 	// decisionWindowP.style.animationDuration = '1';
@@ -400,9 +417,6 @@ function startFromBegining() {
 	
 	decisionWindow.style.opacity = '0';
 	decisionWindowH.style.opacity = '0';
-
-	const rockBox = document.querySelector(`.layer-1.left div:nth-child(1)`)
-	const scissorsBox = document.querySelector(`.layer-1.left div:nth-child(3)`)
 
 	setTimeout(
 		() => {
@@ -422,6 +436,7 @@ function startFromBegining() {
 		() => {
 			rockBox.style.marginBottom = '9.5cm';
 			scissorsBox.style.marginTop = '9.5cm';
+			layerImgs.style.display = 'initial';
 		}
 		,1500
 	);
@@ -430,4 +445,5 @@ function startFromBegining() {
 
 
 
-
+// TODO create another div (display: none to something else and z-index higher etc.) to prevent to click the button in the decision window before screen loads etc, or create a variable to prevent button to be clickable or prevent button to start the game etc... 
+//	NOTE man, divs makes things lot easier in the js side...

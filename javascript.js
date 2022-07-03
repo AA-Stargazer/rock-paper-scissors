@@ -377,16 +377,20 @@ function showDecisionWindow(winner) {
 	const rockBox = document.querySelector(`.layer-1.left div:nth-child(1)`)
 	const scissorsBox = document.querySelector(`.layer-1.left div:nth-child(3)`)
 	
-	const layerImgs = document.querySelector('.layer-1.left img');
+	const layerImgs = document.querySelectorAll('.layer-1.left img');
 	
 	// beecuase after a second, offClick executed (in the startGame) and I don't want to create another variable which would make things way more complicated, I'll setTimeout for these
 	setTimeout(
 		() => {
 			rockBox.style.marginBottom = '0';
 			scissorsBox.style.marginTop = '0';
-			layerImgs.style.display = 'none';
+			layerImgs.forEach(
+				(layerImg) => {
+					layerImg.style.opacity = '0';
+				}
+			);
 		}
-		,1010
+		,1050
 	);
 
 
@@ -399,6 +403,7 @@ function showDecisionWindow(winner) {
 // -------------------- START FROM BEGINING ----------------
 
 
+// NOTE Actually could run this function in a setTimeout while adding EventListener to the button. In both way, still would need to use setTimeout. Idk, could be a bit better maybe... Loot at it later... (also this wouldn't be different than setTimeout inside setTimeout...)
 // actually could use the keepGameOn, but just using z-index etc both easier for me and a bit easier for other programmers to understand if they ever want to look at the code...
 function startFromBegining() {
 
@@ -408,7 +413,7 @@ function startFromBegining() {
 	const rockBox = document.querySelector(`.layer-1.left div:nth-child(1)`)
 	const scissorsBox = document.querySelector(`.layer-1.left div:nth-child(3)`)
 	
-	const layerImgs = document.querySelector('.layer-1.left img');
+	const layerImgs = document.querySelectorAll('.layer-1.left img');
 
 	// decisionWindow.style.animationDuration = '1.3';
 	// decisionWindowP.style.animationDuration = '1';
@@ -436,9 +441,18 @@ function startFromBegining() {
 		() => {
 			rockBox.style.marginBottom = '9.5cm';
 			scissorsBox.style.marginTop = '9.5cm';
-			layerImgs.style.display = 'initial';
+			setTimeout(
+				() => {
+					layerImgs.forEach(
+						(layerImg) => {
+							layerImg.style.opacity = '1';
+						}
+					);
+				}
+				,300
+			);
 		}
-		,1500
+		,1300	// hmm, I guess we didn't need to separate it,anyway, at least easier to read a little bit...
 	);
 
 }

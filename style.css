@@ -140,6 +140,10 @@ button {
 	width: 2cm;
 }
 
+.decision-window button {
+	width: 4cm;
+}
+
 .player-scoreboard,
 .computer-scoreboard {
 	width: 4cm;
